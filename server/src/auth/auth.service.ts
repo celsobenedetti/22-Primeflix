@@ -1,8 +1,14 @@
-import { ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { compareHash, createJwt, hashString } from "src/common/utils";
 import { UserService } from "src/modules/user/user.service";
 import { SignInDto } from "./dto/signin.dto";
 import { SignUpDto } from "./dto/signup.dto";
+import { JwtPayload } from "./interfaces/jwt-payload.interface";
 
 @Injectable()
 export class AuthService {
@@ -29,5 +35,13 @@ export class AuthService {
     if (!isValidCredentials) throw new UnauthorizedException("Invalid Credentials");
 
     return { token: createJwt(user) };
+  }
+
+  async deleteAccount(userData: JwtPayload) {
+    const user = await this.userService.findByEmail(userData.email);
+
+    if (!user) throw new NotFoundException("Email not registered");
+
+    await this.userService.remove(userData.id);
   }
 }

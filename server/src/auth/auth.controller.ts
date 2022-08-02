@@ -1,5 +1,7 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Post, Req } from "@nestjs/common";
 import { AllowUnauthorizedRequest } from "src/common/decorators";
+import { SignedUserReq } from "src/common/interfaces";
+
 import { AuthService } from "./auth.service";
 import { SignInDto } from "./dto/signin.dto";
 import { SignUpDto } from "./dto/signup.dto";
@@ -10,13 +12,19 @@ export class AuthController {
 
   @Post("signup")
   @AllowUnauthorizedRequest()
-  signUp(@Body() signUpDto: SignUpDto) {
+  async signUp(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
   }
 
   @Post("signin")
   @AllowUnauthorizedRequest()
-  signIn(@Body() signInDto: SignInDto) {
+  async signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
+  }
+
+  @Post("delete")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteAccount(@Req() { user }: SignedUserReq) {
+    return this.authService.deleteAccount(user);
   }
 }
