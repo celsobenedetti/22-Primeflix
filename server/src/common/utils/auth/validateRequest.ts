@@ -17,4 +17,5 @@ export const validateRequest = async (
   } catch (err) {
     return false;
   }
+  return true;
 };
