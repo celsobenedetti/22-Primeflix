@@ -1,4 +1,6 @@
+import { createMock } from "@golevelup/ts-jest";
 import { Test, TestingModule } from "@nestjs/testing";
+import { SignedUserReq } from "src/common/interfaces";
 import { UserFactory } from "src/database/factories/user.factory";
 import { PrismaService } from "src/database/prisma/prisma.service";
 import { UserService } from "src/modules/user/user.service";
@@ -40,6 +42,17 @@ describe("AuthController", () => {
       await controller.signIn(mockUser);
 
       expect(authService.signIn).toBeCalled();
+    });
+  });
+
+  describe("delete", () => {
+    it("should call deleteAccount service", async () => {
+      const mockRequest = createMock<SignedUserReq>();
+      jest.spyOn(authService, "deleteAccount").mockImplementationOnce(async () => undefined);
+
+      await controller.deleteAccount(mockRequest);
+
+      expect(authService.deleteAccount).toBeCalled();
     });
   });
 });

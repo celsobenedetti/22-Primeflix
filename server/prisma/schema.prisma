@@ -31,7 +31,7 @@ model Wishlist{
   updated_at DateTime @updatedAt
 
   user_id Int @unique
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   movies Movie[]
   labels Label[] 
@@ -43,10 +43,10 @@ model Movie{
   id Int @id @default(autoincrement()) 
 
   wishlist_id Int
-  wishlist Wishlist @relation(fields: [wishlist_id], references: [id])
+  wishlist Wishlist @relation(fields: [wishlist_id], references: [id], onDelete: Cascade)
 
   label_id Int?
-  label Label? @relation(fields: [label_id], references: [id])
+  label Label? @relation(fields: [label_id], references: [id], onDelete: Cascade)
 
   @@map("movies")
 }
@@ -59,7 +59,7 @@ model Label{
   movies Movie[]
 
   wishlist_id Int
-  wishlist Wishlist @relation(fields: [wishlist_id], references: [id])
+  wishlist Wishlist @relation(fields: [wishlist_id], references: [id], onDelete: Cascade)
 
   @@map("labels")
 }

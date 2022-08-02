@@ -374,6 +374,11 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-7.3.0.tgz#a508df35ded585c4e071cb5d9d7c89623c837fae"
   integrity sha512-1W0PZezq2rxlAssoWemi9gFRD8IQxvf0FPL5Km3TOmGHFG7ib0TbFBJ0yC7D/1NsxunjNTK6WjUXV8ao/mKZ5w==
 
+"@golevelup/ts-jest@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@golevelup/ts-jest/-/ts-jest-0.3.3.tgz#f9901f3eaaa7fd366d97538d2fc859ffc3052693"
+  integrity sha512-gut5EhD2S7W1p+C/IsUS1o0P5SHgxsN9TqHyRTjG+rfycniLNBfvIWZPEizpsTev/lR10/XOTpE0YicxPme2+Q==
+
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.4"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.10.4.tgz"

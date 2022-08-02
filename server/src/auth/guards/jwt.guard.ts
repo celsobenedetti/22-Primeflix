@@ -15,7 +15,7 @@ export class JwtGuard implements CanActivate {
 
     const allowUnauthorizedRequest = this.reflector.get<boolean>(
       "allowUnauthorizedRequest",
-      context.getClass(),
+      context.getHandler(),
     );
 
     return allowUnauthorizedRequest || this.isValidRequest(request);
