@@ -1,4 +1,4 @@
-import { ConflictException, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import * as authUtils from "src/common/utils/auth/bcrypt";
 import { UserFactory } from "src/database/factories/user.factory";
@@ -67,6 +67,25 @@ describe("AuthService", () => {
 
       expect(result).toHaveProperty("token");
       expect(result.token).not.toBeFalsy();
+    });
+  });
+  describe("deleteAccount", () => {
+    it("should throw 404 if email is not found", async () => {
+      jest.spyOn(userService, "findByEmail").mockResolvedValueOnce(undefined);
+
+      expect(authService.deleteAccount(userFactory.newMockUser())).rejects.toBeInstanceOf(
+        NotFoundException,
+      );
+    });
+
+    it("should call userService.remove in success", async () => {
+      const mockUser = userFactory.newMockUser();
+      jest.spyOn(userService, "findByEmail").mockResolvedValueOnce(mockUser);
+      jest.spyOn(userService, "remove").mockImplementationOnce(async () => undefined);
+
+      await authService.deleteAccount(mockUser);
+
+      expect(userService.remove).toBeCalled();
     });
   });
 });
