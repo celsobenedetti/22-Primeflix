@@ -23,13 +23,11 @@ export class AuthService {
   }
 
   async signIn(signInDto: SignInDto) {
-    const existingUser = await this.userService.findByEmail(signInDto.email);
+    const user = await this.userService.findByEmail(signInDto.email);
 
-    const isValidCredentials =
-      existingUser && (await compareHash(signInDto.password, existingUser.password));
-
+    const isValidCredentials = user && (await compareHash(signInDto.password, user.password));
     if (!isValidCredentials) throw new UnauthorizedException("Invalid Credentials");
 
-    return { token: createJwt(existingUser) };
+    return { token: createJwt(user) };
   }
 }
