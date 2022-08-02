@@ -1,20 +1,45 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { UserFactory } from "src/database/factories/user.factory";
+import { PrismaService } from "src/database/prisma/prisma.service";
+import { UserService } from "src/modules/user/user.service";
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
 
-describe('AuthController', () => {
+describe("AuthController", () => {
   let controller: AuthController;
+  let authService: AuthService;
+
+  const userFactory = new UserFactory();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [AuthService],
+      providers: [PrismaService, UserService, AuthService],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
+    authService = module.get<AuthService>(AuthService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe("signup", () => {
+    it("should call signup service", async () => {
+      const mockUser = userFactory.newMockUser();
+      jest.spyOn(authService, "signUp").mockImplementationOnce(async () => undefined);
+
+      await controller.signUp(mockUser);
+
+      expect(authService.signUp).toBeCalled();
+    });
+  });
+
+  describe("signin", () => {
+    it("should call signin service", async () => {
+      const mockUser = userFactory.newMockUser();
+      jest.spyOn(authService, "signIn").mockImplementationOnce(async () => undefined);
+
+      await controller.signIn(mockUser);
+
+      expect(authService.signIn).toBeCalled();
+    });
   });
 });
