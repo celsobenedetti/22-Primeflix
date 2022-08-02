@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
 
 const SALT = 10;
 
