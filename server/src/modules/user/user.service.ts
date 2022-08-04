@@ -16,12 +16,14 @@ export class UserService {
             labels: {
               createMany: {
                 data: [
-                  { color: "#ef4444" },
-                  { color: "#fde047" },
-                  { color: "#059669" },
-                  { color: "#0891b2" },
-                  { color: "#8b5cf6" },
-                  { color: "#ec4899" },
+                  { color: "#f4b8e4" },
+                  { color: "#ca9ee6" },
+                  { color: "#e78284" },
+                  { color: "#ea999c" },
+                  { color: "#ef9f76" },
+                  { color: "#e5c890" },
+                  { color: "#a6d189" },
+                  { color: "#81c8be" },
                 ],
               },
             },
