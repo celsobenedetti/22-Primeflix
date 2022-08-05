@@ -4,7 +4,7 @@ import { HomeIcon, SearchIcon, BookmarkIcon } from "@heroicons/vue/outline";
 
 <template>
   <footer
-    class="flex fixed bottom-0 justify-around items-center w-full h-16 border-t-[1px] border-inactive text-inactive"
+    class="flex fixed bottom-0 justify-around items-center w-full h-16 border-t-2 border-inactive text-inactive"
   >
     <div class="flex flex-col gap-1 items-center">
       <HomeIcon class="w-7" />

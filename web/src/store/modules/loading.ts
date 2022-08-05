@@ -16,4 +16,8 @@ export default {
       state.isLoading = payload;
     },
   },
+
+  getters: {
+    isLoading: (state: LoadingState) => state.isLoading,
+  },
 };

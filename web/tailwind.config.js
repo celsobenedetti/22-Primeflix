@@ -16,6 +16,7 @@ module.exports = {
       },
       textColor: {
         light: "var(--text)",
+        inactive: inactive,
       },
       colors: {
         secondary: secondary,

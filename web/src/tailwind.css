@@ -33,3 +33,7 @@
 
   background-color: var(--crust);
 }
+
+#app {
+  min-height: 100vh;
+}
