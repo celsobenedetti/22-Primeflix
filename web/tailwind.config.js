@@ -1,5 +1,8 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
+const secondary = "var(--mauve)";
+const inactive = "var(--surface2)";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -8,8 +11,20 @@ module.exports = {
       fontFamily: {
         sans: ['"Inter var"', ...defaultTheme.fontFamily.sans],
       },
+      shadow: {
+        secondary: secondary,
+      },
       textColor: {
         light: "var(--text)",
+        inactive: inactive,
+      },
+      colors: {
+        secondary: secondary,
+        inactive: inactive,
+      },
+      borderColor: {
+        secondary: secondary,
+        inactive: inactive,
       },
       backgroundColor: {
         main: {
@@ -22,7 +37,7 @@ module.exports = {
           700: "var(--base)",
           800: "var(--mantle)",
           900: "var(--crust)",
-          blue: "var(--blue)",
+          secondary: secondary,
         },
       },
     },
