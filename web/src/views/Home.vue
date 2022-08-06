@@ -2,11 +2,9 @@
 import Logo from "@/assets/logo.png";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import SearchBar from "@/components/home/SearchBarHome.vue";
-import { computed } from "@vue/reactivity";
-import { useStore } from "../store";
+import { TMDB_URL, TMDB_AUTH, useGet } from "../api/api.service";
 
-const store = useStore();
-const isLoading = computed(() => store.getters.isLoading);
+const { isLoading, execute } = useGet(`${TMDB_URL}/movie/upcoming?${TMDB_AUTH}`);
 </script>
 
 <template>
@@ -17,5 +15,6 @@ const isLoading = computed(() => store.getters.isLoading);
       <img :src="Logo" class="w-8 h-8" alt="" />
     </div>
     <SearchBar />
+    <button @click="() => execute()" class="bg-red-200">Fetch Data</button>
   </div>
 </template>
