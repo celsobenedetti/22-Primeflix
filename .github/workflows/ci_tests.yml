@@ -8,12 +8,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
+        uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_POSTGRES_USER: "postgres"
           envkey_POSTGRES_PASSWORD: "postgres"
           envkey_POSTGRES_DB: "primeflix_test"
           envkey_DATABASE_URL: "postgresql://postgres:postgres@db_test:5432/primeflix_test?schema=public"
+          directory_name: server
           file_name: .env.test
 
       - name: Run tests
