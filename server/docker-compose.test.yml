@@ -8,9 +8,11 @@ services:
       - 2345:5432
     env_file:
       - .env.test
+    healthcheck:
+      test: pg_isready -U postgres
 
-  nest_app:
-    container_name: nest_app
+  nest_app_tests:
+    container_name: nest_app_tests
     build:
       context: .
       dockerfile: Dockerfile.test
@@ -19,4 +21,5 @@ services:
     env_file:
       - .env.test
     depends_on:
-      - db_test
+      db_test:
+        condition: service_healthy
