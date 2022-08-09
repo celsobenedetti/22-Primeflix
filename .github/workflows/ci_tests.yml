@@ -1,7 +1,7 @@
-name: ServerCITests
+name: ServerTests
 on: [pull_request]
 jobs:
-  ServerCITests:
+  ServerTests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
