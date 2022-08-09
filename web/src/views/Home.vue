@@ -1,29 +1,20 @@
-<script setup>
-import ButtonRepo from "@/components/ButtonRepo.vue";
+<script setup lang="ts">
+import Logo from "@/assets/logo.png";
+import LoadingScreen from "@/components/LoadingScreen.vue";
+import SearchBar from "@/components/home/SearchBarHome.vue";
+import { TMDB_URL, TMDB_AUTH, useGet } from "../api/api.service";
+
+const { isLoading, execute } = useGet(`${TMDB_URL}/movie/upcoming?${TMDB_AUTH}`);
 </script>
 
 <template>
-  <div class="bg-gray-50">
-    <div
-      class="py-12 px-4 mx-auto max-w-screen-xl sm:px-6 lg:flex lg:justify-between lg:items-center lg:py-16 lg:px-8"
-    >
-      <h2
-        class="text-3xl font-extrabold tracking-tight leading-9 text-gray-900 sm:text-4xl sm:leading-10"
-      >
-        Ready to dive in?
-        <br />
-        <span class="text-indigo-600">Vite + Vue 3 + Tailwind CSS</span>
-      </h2>
-      <div class="flex mt-8 lg:flex-shrink-0 lg:mt-0">
-        <div class="inline-flex rounded-md shadow">
-          <router-link
-            to="/about"
-            class="inline-flex justify-center items-center py-3 px-5 text-base font-medium leading-6 text-white bg-indigo-600 rounded-md border border-transparent transition duration-150 ease-in-out hover:bg-indigo-500 focus:outline-none"
-            >Next Page</router-link
-          >
-        </div>
-        <ButtonRepo />
-      </div>
+  <LoadingScreen v-if="isLoading" />
+  <div class="bg-main-900" v-else>
+    <div class="flex gap-1 justify-center items-center p-2 w-full text-xl">
+      <p class="text-light">Primeflix</p>
+      <img :src="Logo" class="w-8 h-8" alt="" />
     </div>
+    <SearchBar />
+    <button @click="() => execute()" class="bg-red-200">Fetch Data</button>
   </div>
 </template>
