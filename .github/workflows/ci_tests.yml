@@ -18,4 +18,4 @@ jobs:
           file_name: .env.test
 
       - name: Run tests
-        run: docker-compose -f server/docker-compose.test.yml up
+        run: docker-compose -f server/docker-compose.test.yml up --exit-code-from nest_app_tests
