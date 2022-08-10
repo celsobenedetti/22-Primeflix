@@ -1,6 +1,7 @@
 import { useStorage } from "@vueuse/core";
 import { ActionContext } from "vuex";
 import { getTMDBConfig } from "../../api/tmdb.service";
+
 import { IImagesConfig, ITMDBState } from "../../interfaces/vuex";
 
 export default {

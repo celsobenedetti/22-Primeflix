@@ -5,7 +5,7 @@ const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 export const TMDB_URL = "https://api.themoviedb.org/3";
 export const TMDB_AUTH = `api_key=${TMDB_API_KEY}`;
 
-export const useGetTMDB = async (endpoint: string) => {
+export const useGetTMDB = (endpoint: string) => {
   return useGet(`${TMDB_URL}/${endpoint}?${TMDB_AUTH}`);
 };
 
