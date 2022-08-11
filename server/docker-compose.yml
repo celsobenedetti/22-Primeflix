@@ -1,0 +1,25 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    ports:
+      - 2345:5432
+    env_file:
+      - .env
+    healthcheck:
+      test: pg_isready -U postgres
+
+  nest_app:
+    container_name: nest_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
