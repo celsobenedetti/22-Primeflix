@@ -7,12 +7,11 @@ import MovieCard from "@/components/home/MovieCard.vue";
 import { useGetTMDB } from "../api";
 
 const { isLoading, data, execute } = useGetTMDB("movie/now_playing");
-const log = () => console.log({ data: data.value });
 </script>
 
 <template>
   <LoadingScreen v-if="isLoading" />
-  <div class="flex flex-col gap-4 bg-main-900" v-else>
+  <div class="flex flex-col gap-5 bg-main-900" v-else>
     <header class="flex gap-1 justify-center items-center p-2 w-full text-xl">
       <p class="text-light">Primeflix</p>
       <img :src="Logo" class="w-8 h-8" alt="" />
@@ -27,7 +26,7 @@ const log = () => console.log({ data: data.value });
       :releaseDate="result.release_date"
       :posterPath="result.poster_path"
       :genreIds="result.genre_ids"
+      :voteAverage="result.vote_average"
     />
-    <button @click="log">johson</button>
   </div>
 </template>

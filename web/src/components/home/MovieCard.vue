@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { BookmarkIcon, StarIcon } from "@heroicons/vue/outline";
-import { computed } from "@vue/reactivity";
 import { useStore } from "../../store";
-
-const store = useStore();
-const posterBaseUrl = store.getters.posterUrlTMDB;
-const genresMap = store.getters.genresMap;
 
 const props = defineProps({
   id: Number,
@@ -13,37 +8,42 @@ const props = defineProps({
   releaseDate: String,
   genreIds: Array<string>,
   posterPath: String,
+  voteAverage: String,
 });
 
-const genres = computed(() => {
-  return props.genreIds?.reduce((genreString, genreId) => {
-    return genresMap.get(genreId) + ",  " + genreString;
-  }, "");
-});
+const store = useStore();
+const posterBaseUrl = store.getters.posterUrlTMDB;
+const genreNames = store.getters.genresMap;
 
 const posterUrl = `${posterBaseUrl}/${props.posterPath}`;
+
+const formattedGenres = props.genreIds
+  ?.reduce((genresString, genreId) => genreNames.get(genreId) + ", " + genresString, "")
+  .slice(0, -2);
 </script>
 
 <template>
-  <div class="flex gap-5 justify-between m-auto w-11/12 text-light">
+  <div class="flex gap-6 justify-between m-auto w-11/12 text-light">
     <img class="w-24 rounded-3xl shadow-xl shadow-gray-900" :src="posterUrl" alt="" />
-    <div class="flex flex-col justify-center w-full">
+    <div class="flex flex-col justify-center w-full text-sm">
       <div>
-        <h3 class="font-bold">Title:</h3>
-        <p class="text-sm">{{ props.title }}</p>
+        <h3 class="text-base font-bold">{{ props.title }}</h3>
       </div>
-      <div>
-        <h3 class="font-bold">Release date:</h3>
-        <p class="text-sm">{{ props.releaseDate }}</p>
+      <div class="mx-1 text-sm">
+        <h3 class="font-bold text-secondary">Release date:</h3>
+        <p class="mx-1">{{ props.releaseDate }}</p>
       </div>
-      <div>
-        <h3 class="font-bold">Genres:</h3>
-        <p class="text-sm">{{ genres }}</p>
+      <div class="mx-1 text-sm">
+        <h3 class="font-bold text-secondary">Genres:</h3>
+        <p class="mx-1">{{ formattedGenres }}</p>
       </div>
     </div>
     <div class="flex flex-col gap-4 justify-center">
       <BookmarkIcon class="w-6 text-inactive" />
-      <StarIcon class="w-6" />
+      <div class="flex flex-col items-center">
+        <StarIcon class="w-6" />
+        <h4 class="text-sm">{{ props.voteAverage }}</h4>
+      </div>
     </div>
   </div>
 </template>
