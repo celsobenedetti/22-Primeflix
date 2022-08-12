@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Logo from "@/assets/logo.png";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import SearchBar from "@/components/home/SearchBarHome.vue";
 import MovieCard from "@/components/home/MovieCard.vue";
@@ -7,14 +6,14 @@ import MovieCard from "@/components/home/MovieCard.vue";
 import { useGetTMDB } from "../api";
 
 const { isLoading, data, execute } = useGetTMDB("movie/now_playing");
+const log = () => console.log({ data: data.value });
 </script>
 
 <template>
   <LoadingScreen v-if="isLoading" />
   <div class="flex flex-col gap-5 bg-main-900" v-else>
-    <header class="flex gap-1 justify-center items-center p-2 w-full text-xl">
+    <header class="flex gap-1 items-center p-2 mx-7 mt-4 w-full text-xl">
       <p class="text-light">Primeflix</p>
-      <img :src="Logo" class="w-8 h-8" alt="" />
     </header>
     <SearchBar />
 
@@ -28,5 +27,6 @@ const { isLoading, data, execute } = useGetTMDB("movie/now_playing");
       :genreIds="result.genre_ids"
       :voteAverage="result.vote_average"
     />
+    <button @click="log">johson</button>
   </div>
 </template>
