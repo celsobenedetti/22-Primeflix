@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import FooterBar from "./components/FooterBar.vue";
+import { useStore } from "./store";
+
+const store = useStore();
+store.dispatch("configTMDB");
 </script>
 
 <template>

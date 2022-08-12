@@ -9,9 +9,18 @@ export const useGetTMDB = (endpoint: string) => {
   return useGet(`${TMDB_URL}/${endpoint}?${TMDB_AUTH}`);
 };
 
+const mapTMDBGenres = async () => {
+  const { data } = await useGetTMDB("genre/movie/list");
+  const { genres } = data.value;
+
+  return genres;
+};
+
 export const getTMDBConfig = async () => {
   const { data } = await useGetTMDB("configuration");
   const { secure_base_url, poster_sizes } = data.value.images;
 
-  return { baseImgUrlTMDB: secure_base_url, posterSizesTMDB: poster_sizes };
+  const genres = await mapTMDBGenres();
+
+  return { baseImgUrlTMDB: secure_base_url, posterSizesTMDB: poster_sizes, genres };
 };
