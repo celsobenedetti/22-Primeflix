@@ -5,23 +5,29 @@ import SearchBar from "@/components/home/SearchBarHome.vue";
 import MovieCard from "@/components/home/MovieCard.vue";
 
 import { useGetTMDB } from "../api";
-import { useStore } from "../store";
 
-const store = useStore();
-store.dispatch("configTMDB");
-
-const { isLoading, data, execute } = useGetTMDB("movie/upcoming");
+const { isLoading, data, execute } = useGetTMDB("movie/now_playing");
+const log = () => console.log({ data: data.value });
 </script>
 
 <template>
   <LoadingScreen v-if="isLoading" />
-  <div class="bg-main-900" v-else>
+  <div class="flex flex-col gap-4 bg-main-900" v-else>
     <header class="flex gap-1 justify-center items-center p-2 w-full text-xl">
       <p class="text-light">Primeflix</p>
       <img :src="Logo" class="w-8 h-8" alt="" />
     </header>
     <SearchBar />
 
-    <MovieCard v-for="result in data.results" :key="result.id" :id="result.id" />
+    <MovieCard
+      v-for="result in data.results"
+      :key="result.id"
+      :id="result.id"
+      :title="result.title"
+      :releaseDate="result.release_date"
+      :posterPath="result.poster_path"
+      :genreIds="result.genre_ids"
+    />
+    <button @click="log">johson</button>
   </div>
 </template>
