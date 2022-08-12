@@ -1,7 +1,7 @@
 import { useStorage } from "@vueuse/core";
 import { ActionContext } from "vuex";
 import { useGet } from "../../api";
-import { getTMDBConfig } from "../../api/tmdb.service";
+import { getTMDBConfig, getTMDBGenres } from "../../api/tmdb.service";
 
 import { IGenreMapping, IImagesConfig, ITMDBState } from "../../interfaces/vuex";
 
@@ -11,13 +11,18 @@ export default {
       baseImgUrlTMDB: useStorage("baseImgUrlTMDB", ""),
       posterSizesTMDB: useStorage("imgSizeTMDB", []),
     },
-    genresMap: new Map<string, string>(),
+    genresMappings: Array<IGenreMapping>,
   }),
 
   getters: {
     baseImgUrlTMDB: (state: ITMDBState) => state.imagesConfig.baseImgUrlTMDB,
     posterSizesTMDB: (state: ITMDBState) => state.imagesConfig.posterSizesTMDB,
-    genresMap: (state: ITMDBState) => state.genresMap,
+
+    genresMap(state: ITMDBState) {
+      const map = new Map<string, string>();
+      state.genresMappings.map(({ id, name }) => map.set(id, name));
+      return map;
+    },
 
     posterUrlTMDB: (state: ITMDBState) => {
       const base = state.imagesConfig.baseImgUrlTMDB;
@@ -31,17 +36,17 @@ export default {
       state.imagesConfig.baseImgUrlTMDB = payload.baseImgUrlTMDB;
       state.imagesConfig.posterSizesTMDB = payload.posterSizesTMDB;
     },
-    setTMDBGenresMap(state: ITMDBState, genres: Array<IGenreMapping>) {
-      state.genresMap = new Map<string, string>();
-      genres.map(({ id, name }) => state.genresMap.set(id, name));
+    setTMDBGenresMappings(state: ITMDBState, genres: Array<IGenreMapping>) {
+      state.genresMappings = genres;
     },
   },
 
   actions: {
     async configTMDB(context: ActionContext<ITMDBState, {}>) {
-      const { genres, ...imgConfig } = await getTMDBConfig();
-      context.commit("setTMDBImgConfig", imgConfig);
-      context.commit("setTMDBGenresMap", genres);
+      if (!context.getters.baseImgUrlTMDB || !context.getters.posterSizesTMDB.length) {
+        context.commit("setTMDBConfig", await getTMDBConfig());
+      }
+      context.commit("setTMDBGenresMappings", await getTMDBGenres());
     },
     async useGetPoster(context: ActionContext<ITMDBState, {}>) {
       return (endpoint: string) => useGet(`${context.getters.posterUrlTMDB}/${endpoint}`);

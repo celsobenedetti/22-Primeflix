@@ -10,5 +10,5 @@ export interface IGenreMapping {
 
 export interface ITMDBState {
   imagesConfig: IImagesConfig;
-  genresMap: Map<string, string>;
+  genresMappings: Array<IGenreMapping>;
 }
