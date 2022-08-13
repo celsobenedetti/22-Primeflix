@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FooterBar from "@/components/FooterBar.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import SearchBar from "@/components/home/SearchBarHome.vue";
 import MovieCard from "@/components/home/MovieCard.vue";
@@ -29,4 +30,5 @@ const log = () => console.log({ data: data.value });
     />
     <button @click="log">johson</button>
   </div>
+  <FooterBar />
 </template>
