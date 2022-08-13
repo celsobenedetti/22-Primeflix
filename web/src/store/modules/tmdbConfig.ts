@@ -22,9 +22,7 @@ export default {
 
     genresMap(state: ITMDBState) {
       const map = new Map<string, string>();
-      if (state.genresMappings?.length) {
-        state.genresMappings?.map(({ id, name }) => map.set(id, name));
-      }
+      state.genresMappings?.map(({ id, name }) => map.set(id, name));
       return map;
     },
 

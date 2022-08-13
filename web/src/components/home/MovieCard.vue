@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BookmarkIcon as BookmarkIconOutline } from "@heroicons/vue/outline";
 import { StarIcon } from "@heroicons/vue/solid";
+import { computed } from "@vue/reactivity";
 import { useStore } from "../../store";
 
 const props = defineProps({
@@ -14,13 +15,15 @@ const props = defineProps({
 
 const store = useStore();
 const posterBaseUrl = store.getters.posterUrlTMDB;
-const genreNames = store.getters.genresMap;
+const genreNames = computed(() => store.getters.genresMap);
 
 const posterUrl = `${posterBaseUrl}/${props.posterPath}`;
 
-const formattedGenres = props.genreIds
-  ?.reduce((genresString, genreId) => genreNames?.get(genreId) + ", " + genresString, "")
-  .slice(0, -2);
+const formattedGenres = computed(() =>
+  props.genreIds
+    ?.reduce((genresString, genreId) => genreNames.value?.get(genreId) + ", " + genresString, "")
+    .slice(0, -2),
+);
 </script>
 
 <template>
