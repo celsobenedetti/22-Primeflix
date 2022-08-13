@@ -7,9 +7,11 @@ services:
     ports:
       - 2345:5432
     env_file:
-      - .env
+      - .env.docker
     healthcheck:
       test: pg_isready -U postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   nest_app:
     container_name: nest_app
@@ -19,7 +21,10 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       db:
         condition: service_healthy
+
+volumes:
+  postgres:
