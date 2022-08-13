@@ -12,7 +12,7 @@ export default {
       posterSizesTMDB: useStorage("posterSizesTMDB", []),
       backdropSizesTMDB: useStorage("backdropSizesTMDB", []),
     },
-    genresMappings: Array<IGenreMapping>,
+    genresMappings: [] as IGenreMapping[],
   }),
 
   getters: {
