@@ -22,7 +22,7 @@ const movieInfo = computed(() => {
     backdropUrl: `${backdropBaseUrl}${data.value.backdrop_path}`,
     title: data.value.title,
     voteAverage: data.value?.vote_average.toFixed(1),
-    genres: data.value?.genres.map(({ name }: { name: string }) => name),
+    genres: data.value?.genres?.map(({ name }: { name: string }) => name),
     overview: data.value?.overview,
     releaseDate: data.value?.release_date,
     status: data.value?.status,
