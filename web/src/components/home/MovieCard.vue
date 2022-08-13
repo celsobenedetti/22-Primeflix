@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { BookmarkIcon, StarIcon } from "@heroicons/vue/outline";
+import { BookmarkIcon as BookmarkIconOutline } from "@heroicons/vue/outline";
+import { StarIcon } from "@heroicons/vue/solid";
 import { useStore } from "../../store";
 
 const props = defineProps({
@@ -8,7 +9,7 @@ const props = defineProps({
   releaseDate: String,
   genreIds: Array<string>,
   posterPath: String,
-  voteAverage: String,
+  voteAverage: Number,
 });
 
 const store = useStore();
@@ -24,11 +25,19 @@ const formattedGenres = props.genreIds
 
 <template>
   <div class="flex gap-6 justify-between m-auto w-11/12 text-light">
-    <img class="w-24 rounded-3xl shadow-xl shadow-gray-900" :src="posterUrl" alt="" />
+    <img
+      @click="$router.push(`movies/${props.id}`)"
+      class="w-24 rounded-3xl shadow-xl cursor-pointer shadow-gray-900"
+      :src="posterUrl"
+      alt=""
+    />
     <div class="flex flex-col justify-center w-full text-sm">
-      <div>
-        <h3 class="text-base font-bold">{{ props.title }}</h3>
-      </div>
+      <h3
+        @click="$router.push(`movies/${props.id}`)"
+        class="my-1 text-base font-bold rounded-md cursor-pointer"
+      >
+        {{ props.title }}
+      </h3>
       <div class="mx-1 text-sm">
         <h3 class="font-bold text-secondary">Release date:</h3>
         <p class="mx-1">{{ props.releaseDate }}</p>
@@ -39,7 +48,7 @@ const formattedGenres = props.genreIds
       </div>
     </div>
     <div class="flex flex-col gap-4 justify-center">
-      <BookmarkIcon class="w-6 text-inactive" />
+      <BookmarkIconOutline class="w-6 text-inactive" />
       <div class="flex flex-col items-center">
         <StarIcon class="w-6" />
         <h4 class="text-sm">{{ props.voteAverage }}</h4>

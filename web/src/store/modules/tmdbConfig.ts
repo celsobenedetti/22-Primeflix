@@ -9,7 +9,8 @@ export default {
   state: () => ({
     imagesConfig: {
       baseImgUrlTMDB: useStorage("baseImgUrlTMDB", ""),
-      posterSizesTMDB: useStorage("imgSizeTMDB", []),
+      posterSizesTMDB: useStorage("posterSizesTMDB", []),
+      backdropSizesTMDB: useStorage("backdropSizesTMDB", []),
     },
     genresMappings: Array<IGenreMapping>,
   }),
@@ -17,17 +18,24 @@ export default {
   getters: {
     baseImgUrlTMDB: (state: ITMDBState) => state.imagesConfig.baseImgUrlTMDB,
     posterSizesTMDB: (state: ITMDBState) => state.imagesConfig.posterSizesTMDB,
+    backdropSizesTMDB: (state: ITMDBState) => state.imagesConfig.backdropSizesTMDB,
 
     genresMap(state: ITMDBState) {
       const map = new Map<string, string>();
-      state.genresMappings.map(({ id, name }) => map.set(id, name));
+      state.genresMappings?.map(({ id, name }) => map.set(id, name));
       return map;
     },
 
     posterUrlTMDB: (state: ITMDBState) => {
       const base = state.imagesConfig.baseImgUrlTMDB;
-      const posterSize = state.imagesConfig.posterSizesTMDB;
-      return `${base}${posterSize.at(-1)}`;
+      const posterSizes = state.imagesConfig.posterSizesTMDB;
+      return `${base}${posterSizes.at(-1)}`;
+    },
+
+    backdropUrlTMDB: (state: ITMDBState) => {
+      const base = state.imagesConfig.baseImgUrlTMDB;
+      const backdropSizes = state.imagesConfig.backdropSizesTMDB;
+      return `${base}${backdropSizes.at(-1)}`;
     },
   },
 
@@ -35,6 +43,7 @@ export default {
     setTMDBImgConfig(state: ITMDBState, payload: IImagesConfig) {
       state.imagesConfig.baseImgUrlTMDB = payload.baseImgUrlTMDB;
       state.imagesConfig.posterSizesTMDB = payload.posterSizesTMDB;
+      state.imagesConfig.backdropSizesTMDB = payload.backdropSizesTMDB;
     },
     setTMDBGenresMappings(state: ITMDBState, genres: Array<IGenreMapping>) {
       state.genresMappings = genres;
@@ -43,8 +52,12 @@ export default {
 
   actions: {
     async configTMDB(context: ActionContext<ITMDBState, {}>) {
-      if (!context.getters.baseImgUrlTMDB || !context.getters.posterSizesTMDB.length) {
-        context.commit("setTMDBConfig", await getTMDBConfig());
+      if (
+        !context.getters.baseImgUrlTMDB ||
+        !context.getters.posterSizesTMDB?.length ||
+        !context.getters.backdropSizesTMDB?.length
+      ) {
+        context.commit("setTMDBImgConfig", await getTMDBConfig());
       }
       context.commit("setTMDBGenresMappings", await getTMDBGenres());
     },

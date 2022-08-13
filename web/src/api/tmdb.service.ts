@@ -18,7 +18,11 @@ export const getTMDBGenres = async () => {
 
 export const getTMDBConfig = async () => {
   const { data } = await useGetTMDB("configuration");
-  const { secure_base_url, poster_sizes } = data.value.images;
+  const { secure_base_url, poster_sizes, backdrop_sizes } = data.value.images;
 
-  return { baseImgUrlTMDB: secure_base_url, posterSizesTMDB: poster_sizes };
+  return {
+    baseImgUrlTMDB: secure_base_url,
+    posterSizesTMDB: poster_sizes,
+    backdropSizesTMDB: backdrop_sizes,
+  };
 };
