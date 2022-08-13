@@ -19,7 +19,7 @@ const genreNames = store.getters.genresMap;
 const posterUrl = `${posterBaseUrl}/${props.posterPath}`;
 
 const formattedGenres = props.genreIds
-  ?.reduce((genresString, genreId) => genreNames.get(genreId) + ", " + genresString, "")
+  ?.reduce((genresString, genreId) => genreNames?.get(genreId) + ", " + genresString, "")
   .slice(0, -2);
 </script>
 
