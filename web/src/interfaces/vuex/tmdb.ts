@@ -1,6 +1,7 @@
 export interface IImagesConfig {
   baseImgUrlTMDB: string;
   posterSizesTMDB: string[];
+  backdropSizesTMDB: string[];
 }
 
 export interface IGenreMapping {
