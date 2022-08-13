@@ -34,7 +34,7 @@ const formattedGenres = props.genreIds
     <div class="flex flex-col justify-center w-full text-sm">
       <h3
         @click="$router.push(`movies/${props.id}`)"
-        class="text-base font-bold rounded-md cursor-pointer"
+        class="my-1 text-base font-bold rounded-md cursor-pointer"
       >
         {{ props.title }}
       </h3>
