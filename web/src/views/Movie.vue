@@ -4,6 +4,8 @@ import { StarIcon } from "@heroicons/vue/solid";
 import { useRoute } from "vue-router";
 
 import LoadingScreen from "@/components/LoadingScreen.vue";
+import FooterBar from "@/components/FooterBar.vue";
+
 import { useGetTMDB } from "../api";
 import { useStore } from "../store";
 import { computed } from "@vue/reactivity";
@@ -63,12 +65,12 @@ const movieInfo = computed(() => {
           <h4 class="text-sm">{{ movieInfo.voteAverage }}</h4>
         </div>
         <div class="flex overflow-x-auto gap-2 w-full rounded-3xl">
-          <div
+          <p
             v-for="genre in movieInfo.genres"
-            class="p-1 px-3 text-sm bg-gray-700 rounded-3xl shadow-sm text-light shadow-gray-900"
+            class="flex items-center p-1 px-3 text-sm whitespace-nowrap rounded-3xl shadow-sm bg-main-700 text-light shadow-gray-900"
           >
             {{ genre }}
-          </div>
+          </p>
         </div>
       </div>
       <div class="mt-8 text-light">
@@ -107,4 +109,5 @@ const movieInfo = computed(() => {
       </div>
     </main>
   </div>
+  <FooterBar />
 </template>

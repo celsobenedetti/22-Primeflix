@@ -11,6 +11,7 @@
     "@vueuse/integrations": "^9.1.0",
     "axios": "^0.27.2",
     "vue": "^3.2.37",
+    "vue-debounce": "^4.0.0",
     "vue-router": "^4.1.2",
     "vuex": "^4.0.2"
   },
