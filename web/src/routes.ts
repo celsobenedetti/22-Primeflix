@@ -1,6 +1,7 @@
 import Home from "./views/Home.vue";
 import Movie from "./views/Movie.vue";
 import About from "./views/About.vue";
+import Search from "./views/Search.vue";
 import NotFound from "./views/NotFound.vue";
 
 import { RouterOptions } from "vue-router";
@@ -8,6 +9,7 @@ import { RouterOptions } from "vue-router";
 export const routes: RouterOptions["routes"] = [
   { path: "/", component: Home },
   { path: "/movies/:id", component: Movie },
+  { path: "/search", component: Search },
   {
     path: "/about",
     meta: { title: "About" },

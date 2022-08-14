@@ -4,7 +4,8 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const home = route.path == "/";
+const isSearch = route.path == "/search";
+const isHome = !isSearch;
 </script>
 
 <template>
@@ -14,13 +15,17 @@ const home = route.path == "/";
     <div
       @click="$router.push('/')"
       class="flex flex-col gap-1 items-center cursor-pointer"
-      :class="home && 'text-secondary'"
+      :class="isHome && 'text-secondary'"
     >
       <HomeIcon class="w-7" />
       <h5 class="text-xs">Home</h5>
     </div>
 
-    <div class="flex flex-col gap-1 items-center cursor-pointer">
+    <div
+      @click="$router.push('/search')"
+      class="flex flex-col gap-1 items-center cursor-pointer"
+      :class="isSearch && 'text-secondary'"
+    >
       <SearchIcon class="w-7" />
       <h5 class="text-xs">Search</h5>
     </div>

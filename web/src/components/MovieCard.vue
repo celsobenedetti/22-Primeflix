@@ -2,7 +2,7 @@
 import { BookmarkIcon as BookmarkIconOutline } from "@heroicons/vue/outline";
 import { StarIcon } from "@heroicons/vue/solid";
 import { computed } from "@vue/reactivity";
-import { useStore } from "../../store";
+import { useStore } from "../store";
 
 const props = defineProps({
   id: Number,
@@ -30,7 +30,7 @@ const formattedGenres = computed(() =>
   <div class="flex gap-6 justify-between m-auto w-11/12 text-light">
     <img
       @click="$router.push(`movies/${props.id}`)"
-      class="w-24 rounded-3xl shadow-xl cursor-pointer shadow-gray-900"
+      class="w-24 h-36 rounded-3xl shadow-xl cursor-pointer shadow-gray-900"
       :src="posterUrl"
       alt=""
     />
