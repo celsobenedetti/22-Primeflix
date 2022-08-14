@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import FooterBar from "@/components/FooterBar.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import SearchBar from "@/components/home/SearchBarHome.vue";
-import MovieCard from "@/components/home/MovieCard.vue";
+import SearchBar from "@/components/SearchBar.vue";
+import MovieCard from "@/components/MovieCard.vue";
 
 import { useGetTMDB } from "../api";
 
-const { isLoading, data, execute } = useGetTMDB("movie/now_playing");
-const log = () => console.log({ data: data.value });
+const { isLoading, data } = useGetTMDB("movie/now_playing");
 </script>
 
 <template>
@@ -16,7 +15,7 @@ const log = () => console.log({ data: data.value });
     <header class="flex gap-1 items-center p-2 mx-7 mt-4 w-full text-xl">
       <p class="text-light">Primeflix</p>
     </header>
-    <SearchBar />
+    <SearchBar @click="$router.push('/search')" />
 
     <MovieCard
       v-for="result in data.results"
@@ -28,7 +27,6 @@ const log = () => console.log({ data: data.value });
       :genreIds="result.genre_ids"
       :voteAverage="result.vote_average"
     />
-    <button @click="log">johson</button>
   </div>
   <FooterBar />
 </template>
