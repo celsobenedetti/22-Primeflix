@@ -2,11 +2,13 @@ import { useGet } from "./api.service";
 
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-export const TMDB_URL = "https://api.themoviedb.org/3";
+export const TMDB_BASE = "https://api.themoviedb.org/3";
 export const TMDB_AUTH = `api_key=${TMDB_API_KEY}`;
 
+const urlTMDB = (endpoint: string) => `${TMDB_BASE}/${endpoint}?${TMDB_AUTH}`;
+
 export const useGetTMDB = (endpoint: string) => {
-  return useGet(`${TMDB_URL}/${endpoint}?${TMDB_AUTH}`);
+  return useGet(urlTMDB(endpoint));
 };
 
 export const getTMDBGenres = async () => {
@@ -24,5 +26,13 @@ export const getTMDBConfig = async () => {
     baseImgUrlTMDB: secure_base_url,
     posterSizesTMDB: poster_sizes,
     backdropSizesTMDB: backdrop_sizes,
+  };
+};
+
+export const useTMDBSearch = () => {
+  const { execute, ...useGetReturn } = useGet("", { immediate: false });
+  return {
+    ...useGetReturn,
+    execute: (query: string) => execute(`${urlTMDB("search/movie")}&query=${query}`),
   };
 };
