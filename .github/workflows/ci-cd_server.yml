@@ -1,4 +1,4 @@
-name: ServerTests
+name: ServerCI/CD
 on:
   pull_request:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  ServerTests:
+  Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -24,3 +24,16 @@ jobs:
 
       - name: Run tests
         run: docker-compose -f server/docker-compose.test.yml up --exit-code-from nest_app_tests
+
+  HerokuDeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          branch: "main"
