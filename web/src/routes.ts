@@ -1,15 +1,14 @@
 import Home from "./views/Home.vue";
-import Movie from "./views/Movie.vue";
 import About from "./views/About.vue";
-import Search from "./views/Search.vue";
 import NotFound from "./views/NotFound.vue";
 
 import { RouterOptions } from "vue-router";
 
 export const routes: RouterOptions["routes"] = [
-  { path: "/", component: Home },
-  { path: "/movies/:id", component: Movie },
-  { path: "/search", component: Search },
+  { path: "/", name: "home", component: Home },
+  { path: "/movies/:id", name: "movie", component: () => import("./views/Movie.vue") },
+  { path: "/search", name: "search", component: () => import("./views/Search.vue") },
+  { path: "/signin", name: "signin", component: () => import("./views/SignIn.vue") },
   {
     path: "/about",
     meta: { title: "About" },
