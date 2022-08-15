@@ -14,10 +14,10 @@ const props = defineProps({
 });
 
 const store = useStore();
-const posterBaseUrl = store.getters.posterUrlTMDB;
+const posterBaseUrl = computed(() => store.getters.posterUrlTMDB);
 const genreNames = computed(() => store.getters.genresMap);
 
-const posterUrl = `${posterBaseUrl}/${props.posterPath}`;
+const posterUrl = computed(() => `${posterBaseUrl.value}/${props.posterPath}`);
 
 const formattedGenres = computed(() =>
   props.genreIds
