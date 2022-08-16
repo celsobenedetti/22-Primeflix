@@ -4,6 +4,6 @@ import SignForm from "@/components/SignPageForm.vue";
 
 <template>
   <main class="flex flex-col justify-center items-center w-full h-full">
-    <SignForm :isSignUp="false" />
+    <SignForm :isSignUp="true" />
   </main>
 </template>
