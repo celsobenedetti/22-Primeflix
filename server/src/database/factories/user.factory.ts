@@ -3,6 +3,14 @@ import { faker } from "@faker-js/faker";
 export class UserFactory {
   constructor() {}
 
+  newMockJwt() {
+    return {
+      id: +faker.random.numeric(3),
+      email: faker.internet.email(),
+      name: faker.name.firstName(),
+    };
+  }
+
   newMockUser({} = {}) {
     let id = +faker.random.numeric(3);
     let email = faker.internet.email();
