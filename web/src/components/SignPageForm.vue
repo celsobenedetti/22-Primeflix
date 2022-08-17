@@ -2,22 +2,47 @@
 import ModalAlert from "@/components/ModalAlert.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { ZodObject } from "zod";
+import {
+  formatErroMessage,
+  IForm,
+  ISignInInput,
+  ISignUpInput,
+  validateSchema,
+} from "../services/validation";
 
 const router = useRouter();
 
 const props = defineProps({
   isSignUp: Boolean,
+  formSchema: {
+    type: ZodObject<IForm>,
+    default: {},
+  },
 });
 
-let showModal = ref(false);
-
-const closeModal = () => {
-  showModal.value = false;
-};
+const formInput = ref({
+  email: "",
+  password: "",
+  name: "",
+});
 
 const handleSubmit = async () => {
-  showModal.value = true;
+  const errors = validateSignForm(formInput.value);
+  if (errors) return (modalMessage.value = { title: "Invalid form input", content: errors });
 };
+
+const validateSignForm = (input: ISignUpInput | ISignInInput) => {
+  const errors = validateSchema(props.formSchema, input);
+  if (errors) return formatErroMessage(errors);
+  return "";
+};
+
+const modalMessage = ref({
+  title: "",
+  content: "",
+});
+const closeModal = () => (modalMessage.value.content = "");
 </script>
 
 <template>
@@ -30,6 +55,7 @@ const handleSubmit = async () => {
     <div v-if="props.isSignUp" class="w-full">
       <label for="name" class="mx-1 text-lg font-bold text-secondary">Name</label>
       <input
+        v-model="formInput.name"
         type="name"
         placeholder="Name"
         name="name"
@@ -40,6 +66,7 @@ const handleSubmit = async () => {
     <div class="w-full">
       <label for="email" class="mx-1 text-lg font-bold text-secondary">Email</label>
       <input
+        v-model="formInput.email"
         type="text"
         placeholder="Email"
         name="email"
@@ -50,6 +77,7 @@ const handleSubmit = async () => {
     <div class="w-full">
       <label for="password" class="mx-1 text-lg font-bold text-secondary">Password</label>
       <input
+        v-model="formInput.password"
         type="password"
         placeholder="Password"
         name="password"
@@ -70,9 +98,9 @@ const handleSubmit = async () => {
     {{ props.isSignUp ? "Have an account? Sign in." : "Dont have an account? Sign up." }}
   </h1>
   <ModalAlert
-    v-if="showModal"
-    title="modal maneiro"
-    content="content content"
+    v-if="modalMessage.content"
+    :title="modalMessage.title"
+    :content="modalMessage.content"
     @close-modal="closeModal"
   />
 </template>

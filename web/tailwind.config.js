@@ -29,6 +29,7 @@ module.exports = {
       borderColor: {
         secondary: secondary,
         inactive: inactive,
+        dark: "var(--crust)",
       },
       backgroundColor: {
         main: {
