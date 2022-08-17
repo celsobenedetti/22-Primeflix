@@ -7,9 +7,10 @@ import { JwtGuard } from "./auth/guards/jwt.guard";
 import { JwtInterceptor } from "./common/interceptors/jwt.interceptor";
 import { UserModule } from "./modules/user/user.module";
 import { PrismaService } from "./database/prisma/prisma.service";
+import { BookmarksModule } from './modules/bookmarks/bookmarks.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule, UserModule],
+  imports: [ConfigModule.forRoot(), AuthModule, UserModule, BookmarksModule],
   controllers: [AppController],
   providers: [
     PrismaService,

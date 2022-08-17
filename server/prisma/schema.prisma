@@ -19,34 +19,24 @@ model User{
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  wishlist Wishlist?
+  bookmarks Movie[]
 
   @@map("users")
-}
-
-model Wishlist{
-  id Int @id @default(autoincrement()) 
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  user_id Int @unique
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  movies Movie[]
-  labels Label[] 
-
-  @@map("wishlists")
 }
 
 model Movie{
   id Int @id @default(autoincrement()) 
 
-  wishlist_id Int
-  wishlist Wishlist @relation(fields: [wishlist_id], references: [id], onDelete: Cascade)
+  id_tmdb Int
+  watched Boolean @default(false)
 
   label_id Int?
   label Label? @relation(fields: [label_id], references: [id], onDelete: Cascade)
+
+  user_id Int
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([id_tmdb, user_id])
 
   @@map("movies")
 }
@@ -57,9 +47,6 @@ model Label{
   color String
 
   movies Movie[]
-
-  wishlist_id Int
-  wishlist Wishlist @relation(fields: [wishlist_id], references: [id], onDelete: Cascade)
 
   @@map("labels")
 }

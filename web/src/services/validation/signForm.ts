@@ -15,7 +15,7 @@ export const signInSchema = z.object({
       required_error: "Password is required",
       invalid_type_error: "Password must be a string",
     })
-    .min(5, { message: "Password must be at least 10 characters long" }),
+    .min(5, { message: "Password must be at least 5 characters long" }),
 });
 
 export const signUpSchema = z.object({
@@ -38,7 +38,7 @@ export const signUpSchema = z.object({
       required_error: "Password is required",
       invalid_type_error: "Password must be a string",
     })
-    .min(5, { message: "Password must be at least 10 characters long" }),
+    .min(5, { message: "Password must be at least 5 characters long" }),
 });
 
 export const validateSignForm = (schema: ZodSchema, input: ISignUpInput | ISignInInput) => {

@@ -13,7 +13,10 @@ const props = defineProps({
   voteAverage: Number,
 });
 
+const emit = defineEmits(["showSigninModal"]);
+
 const store = useStore();
+const sessionToken = computed(() => store.getters.sessionToken);
 const posterBaseUrl = computed(() => store.getters.posterUrlTMDB);
 const genreNames = computed(() => store.getters.genresMap);
 
@@ -24,6 +27,10 @@ const formattedGenres = computed(() =>
     ?.reduce((genresString, genreId) => genreNames.value?.get(genreId) + ", " + genresString, "")
     .slice(0, -2),
 );
+
+const clickBookmark = () => {
+  if (!sessionToken.value) emit("showSigninModal");
+};
 </script>
 
 <template>
@@ -51,7 +58,7 @@ const formattedGenres = computed(() =>
       </div>
     </div>
     <div class="flex flex-col gap-4 justify-center">
-      <BookmarkIconOutline class="w-6 text-inactive" />
+      <BookmarkIconOutline @click="clickBookmark" class="w-6 text-inactive" />
       <div class="flex flex-col items-center">
         <StarIcon class="w-6" />
         <h4 class="text-sm">{{ props.voteAverage }}</h4>

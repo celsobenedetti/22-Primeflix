@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import FooterBar from "@/components/FooterBar.vue";
-import NoResultsLogo from "@/assets/search.svg";
+import { ref } from "vue";
+import { ArrowLeftIcon } from "@heroicons/vue/outline";
+import { useRouter } from "vue-router";
 
+import NoResultsLogo from "@/assets/search.svg";
+import FooterBar from "@/components/FooterBar.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import MovieCard from "@/components/MovieCard.vue";
+import ModalAlert from "@/components/ModalAlert.vue";
 
-import { ArrowLeftIcon } from "@heroicons/vue/outline";
 import { useTMDBSearch } from "../api";
 
+const router = useRouter();
 const { data, isLoading, execute } = useTMDBSearch();
+
+const showModal = ref(false);
 </script>
 
 <template>
@@ -26,6 +32,7 @@ const { data, isLoading, execute } = useTMDBSearch();
     <div v-if="data?.results?.length" class="flex flex-col gap-5">
       <MovieCard
         v-for="result in data.results?.filter((result:any) => result.poster_path)"
+        @show-signin-modal="showModal = true"
         :key="result.id"
         :id="result.id"
         :title="result.title"
@@ -42,5 +49,13 @@ const { data, isLoading, execute } = useTMDBSearch();
       <h2 class="font-bold text-inactive">Find your movie by title</h2>
     </div>
   </main>
+  <ModalAlert
+    v-if="showModal"
+    title="Login required"
+    content="You must be logged in to set Bookmarks"
+    buttonText="Login"
+    @close-modal-button="router.push('/signin')"
+    @close-modal-x="showModal = false"
+  />
   <FooterBar />
 </template>

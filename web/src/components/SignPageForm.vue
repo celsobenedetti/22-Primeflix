@@ -60,7 +60,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <h1 class="my-8 text-4xl font-bold text-secondary">Primeflix</h1>
+  <h1 @click="router.push('/')" class="my-8 text-4xl font-bold text-secondary">Primeflix</h1>
   <LoadingScreen v-if="isLoading" />
   <form
     v-else
@@ -117,6 +117,7 @@ const handleSubmit = async () => {
     v-if="modalAlert.content"
     :title="modalAlert.title"
     :content="modalAlert.content"
-    @close-modal="closeAlert"
+    @close-modal-button="closeAlert"
+    @close-modal-x="closeAlert"
   />
 </template>
