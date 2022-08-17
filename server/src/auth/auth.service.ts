@@ -19,10 +19,9 @@ export class AuthService {
 
     if (existingUser) throw new ConflictException("Email already registered");
 
-    const hashedPassword = await hashString(signUpDto.password);
     const { id, email, name } = await this.userService.create({
       ...signUpDto,
-      password: hashedPassword,
+      password: await hashString(signUpDto.password),
     });
 
     return { token: createJwt({ id, email, name }) };

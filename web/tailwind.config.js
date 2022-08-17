@@ -1,6 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 const secondary = "var(--mauve)";
+const terciary = "var(--lavender)";
 const inactive = "var(--surface2)";
 
 /** @type {import('tailwindcss').Config} */
@@ -18,14 +19,17 @@ module.exports = {
         light: "var(--text)",
         inactive: inactive,
         secondary: secondary,
+        terciary: terciary,
       },
       colors: {
         secondary: secondary,
         inactive: inactive,
+        dark: "var(--crust)",
       },
       borderColor: {
         secondary: secondary,
         inactive: inactive,
+        dark: "var(--crust)",
       },
       backgroundColor: {
         main: {
@@ -39,7 +43,14 @@ module.exports = {
           800: "var(--mantle)",
           900: "var(--crust)",
           secondary: secondary,
+          terciary: terciary,
         },
+        tr: {
+          dark: "var(--transparent-dark)",
+        },
+      },
+      ringColor: {
+        secondary: secondary,
       },
     },
   },
