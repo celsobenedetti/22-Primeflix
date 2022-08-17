@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 import FooterBar from "@/components/FooterBar.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import MovieCard from "@/components/MovieCard.vue";
+import ModalAlert from "@/components/ModalAlert.vue";
 
 import { useGetTMDB } from "../api";
 
+const router = useRouter();
 const { isLoading, data } = useGetTMDB("movie/now_playing");
+
+const showModal = ref(false);
 </script>
 
 <template>
@@ -19,6 +26,7 @@ const { isLoading, data } = useGetTMDB("movie/now_playing");
 
     <MovieCard
       v-for="result in data.results"
+      @show-signin-modal="showModal = true"
       :key="result.id"
       :id="result.id"
       :title="result.title"
@@ -28,5 +36,15 @@ const { isLoading, data } = useGetTMDB("movie/now_playing");
       :voteAverage="result.vote_average"
     />
   </div>
+
   <FooterBar />
+
+  <ModalAlert
+    v-if="showModal"
+    title="Login required"
+    content="You must be logged in to set Bookmarks"
+    buttonText="Login"
+    @close-modal-button="router.push('/signin')"
+    @close-modal-x="showModal = false"
+  />
 </template>
