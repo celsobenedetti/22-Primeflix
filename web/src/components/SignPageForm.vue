@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import ModalAlert from "@/components/ModalAlert.vue";
+import LoadingScreen from "@/components/LoadingScreen.vue";
+
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ZodObject } from "zod";
-import {
-  formatErroMessage,
-  IForm,
-  ISignInInput,
-  ISignUpInput,
-  validateSchema,
-} from "../services/validation";
+import { usePostServer } from "../api";
+
+import { IForm } from "../interfaces";
+import { validateSignForm } from "../services/validation";
+import { useStore } from "../store";
 
 const router = useRouter();
+const store = useStore();
 
 const props = defineProps({
   isSignUp: Boolean,
@@ -21,33 +22,48 @@ const props = defineProps({
   },
 });
 
+const endpoint = "v1/auth" + `${props.isSignUp ? "/signup" : "/signin"}`;
+
 const formInput = ref({
   email: "",
   password: "",
   name: "",
 });
 
-const handleSubmit = async () => {
-  const errors = validateSignForm(formInput.value);
-  if (errors) return (modalMessage.value = { title: "Invalid form input", content: errors });
-};
+const { execute, isLoading } = usePostServer(endpoint, { data: formInput.value });
 
-const validateSignForm = (input: ISignUpInput | ISignInInput) => {
-  const errors = validateSchema(props.formSchema, input);
-  if (errors) return formatErroMessage(errors);
-  return "";
-};
-
-const modalMessage = ref({
+const modalAlert = ref({
   title: "",
   content: "",
 });
-const closeModal = () => (modalMessage.value.content = "");
+
+const closeAlert = () => (modalAlert.value.content = "");
+const activateAlert = (title: string, content: string) => (modalAlert.value = { title, content });
+
+const handleSubmit = async () => {
+  const formErrors = validateSignForm(props.formSchema, formInput.value);
+  if (formErrors) return activateAlert("Invalid form input", formErrors);
+
+  const { data, error } = await execute();
+
+  if (error.value) {
+    return activateAlert(
+      error.value.response?.statusText || "Something went wrong",
+      error.value.response?.data?.message || ":(",
+    );
+  }
+
+  const { token } = data.value;
+  store.commit("setToken", token);
+  router.push("/");
+};
 </script>
 
 <template>
   <h1 class="my-8 text-4xl font-bold text-secondary">Primeflix</h1>
+  <LoadingScreen v-if="isLoading" />
   <form
+    v-else
     @submit.prevent="handleSubmit"
     action="#"
     class="flex flex-col gap-3 justify-center px-12 pt-7 pb-5 w-10/12 rounded-xl shadow h-fit shadow-gray-900 bg-main-700"
@@ -98,9 +114,9 @@ const closeModal = () => (modalMessage.value.content = "");
     {{ props.isSignUp ? "Have an account? Sign in." : "Dont have an account? Sign up." }}
   </h1>
   <ModalAlert
-    v-if="modalMessage.content"
-    :title="modalMessage.title"
-    :content="modalMessage.content"
-    @close-modal="closeModal"
+    v-if="modalAlert.content"
+    :title="modalAlert.title"
+    :content="modalAlert.content"
+    @close-modal="closeAlert"
   />
 </template>

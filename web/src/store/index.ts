@@ -4,11 +4,13 @@ import { State } from "../interfaces/vuex";
 
 import loadingModule from "./modules/loading";
 import tmdbConfigModule from "./modules/tmdbConfig";
+import userSessionModule from "./modules/userSession";
 
 export const store = createStore<State>({
   modules: {
     loading: loadingModule,
     tmdb: tmdbConfigModule,
+    userSession: userSessionModule,
   },
 });
 

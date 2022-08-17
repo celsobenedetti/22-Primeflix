@@ -1,10 +1,6 @@
-import { z } from "zod";
-
-export type IForm = {
-  email: z.ZodString;
-  password: z.ZodString;
-  name?: z.ZodString;
-};
+import { z, ZodSchema } from "zod";
+import { ISignInInput, ISignUpInput } from "../../interfaces";
+import { formatErroMessage, validateSchema } from "./validateSchema";
 
 export const signInSchema = z.object({
   email: z
@@ -19,7 +15,7 @@ export const signInSchema = z.object({
       required_error: "Password is required",
       invalid_type_error: "Password must be a string",
     })
-    .min(10, { message: "Password must be at least 10 characters long" }),
+    .min(5, { message: "Password must be at least 10 characters long" }),
 });
 
 export const signUpSchema = z.object({
@@ -42,8 +38,11 @@ export const signUpSchema = z.object({
       required_error: "Password is required",
       invalid_type_error: "Password must be a string",
     })
-    .min(10, { message: "Password must be at least 10 characters long" }),
+    .min(5, { message: "Password must be at least 10 characters long" }),
 });
 
-export type ISignInInput = z.infer<typeof signInSchema>;
-export type ISignUpInput = z.infer<typeof signUpSchema>;
+export const validateSignForm = (schema: ZodSchema, input: ISignUpInput | ISignInInput) => {
+  const errors = validateSchema(schema, input);
+  if (errors) return formatErroMessage(errors);
+  return "";
+};

@@ -1,7 +1,7 @@
 import { LoadingState, StoreCommit } from "../../interfaces/vuex";
 
 export default {
-  state: () => ({ isLoading: false }),
+  state: () => ({ isLoading: true }),
 
   actions: {
     initLoading({ commit }: StoreCommit) {
