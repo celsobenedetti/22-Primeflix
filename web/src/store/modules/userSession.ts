@@ -1,5 +1,4 @@
 import { useStorage } from "@vueuse/core";
-import { ActionContext } from "vuex";
 import { UserSessionState } from "../../interfaces/vuex/session";
 
 export default {

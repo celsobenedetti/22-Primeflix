@@ -22,7 +22,7 @@ const props = defineProps({
   },
 });
 
-const endpoint = "v1/auth" + `${props.isSignUp ? "/signup" : "/signin"}`;
+const endpoint = "/auth" + `${props.isSignUp ? "/signup" : "/signin"}`;
 
 const formInput = ref({
   email: "",
