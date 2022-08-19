@@ -16,6 +16,10 @@ export default {
     setBookmarks(state: IUserSessionState, payload: any[]) {
       state.bookmarks = payload;
     },
+    logUserOut(state: IUserSessionState) {
+      state.token = "";
+      state.bookmarks = [];
+    },
   },
 
   actions: {
