@@ -3,6 +3,7 @@ import { useStore } from "./store";
 
 const store = useStore();
 store.dispatch("configTMDB");
+store.dispatch("fetchBookmarks");
 </script>
 
 <template>
