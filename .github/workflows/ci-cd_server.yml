@@ -34,4 +34,3 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           branch: "main"
           appdir: "server"
-          # procfile: "web: yarn db:prod && yarn start:prod"

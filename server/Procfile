@@ -1,2 +1,2 @@
 web: yarn start:prod
-release: yarn db:prod
+release: yarn db:deploy
