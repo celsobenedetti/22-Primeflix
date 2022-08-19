@@ -1,5 +1,4 @@
 import { useAxios } from "@vueuse/integrations/useAxios";
-import { ComputedRef } from "vue";
 import { IMovieData } from "../interfaces/movies";
 
 const SERVER_BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
@@ -42,8 +41,7 @@ export const useGetServer = (endpoint: string, { immediate = false, token = "" }
 
 export const getUserBookmarks = async (token: string) => {
   const { data } = await useGetServer("bookmarks", { immediate: true, token });
-  const { bookmarks } = data.value;
-  return bookmarks;
+  return data.value?.bookmarks;
 };
 
 export const postToggleBookmark = (movieData: IMovieData | undefined, token: string) => {

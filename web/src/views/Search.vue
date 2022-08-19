@@ -20,7 +20,7 @@ const showModal = ref(false);
 
 <template>
   <header class="flex justify-between py-4 px-4 w-full text-light citems-center">
-    <ArrowLeftIcon @click="$router.go(-1)" class="w-7" />
+    <ArrowLeftIcon @click="$router.go(-1)" class="w-7 cursor-pointer" />
     <h1 class="font-bold">Search</h1>
     <div></div>
   </header>

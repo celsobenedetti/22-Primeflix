@@ -9,15 +9,16 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "../store";
 
 const store = useStore();
-const fetchBookmarks = () => store.dispatch("fetchBookmarks");
-fetchBookmarks();
+store.dispatch("fetchBookmarks");
 
 const bookmarks = computed(() => store.getters.bookmarks);
+
+const fetchBookmarks = () => store.dispatch("fetchBookmarks");
 </script>
 
 <template>
   <header class="flex justify-between py-4 px-4 w-full text-light citems-center">
-    <ArrowLeftIcon @click="$router.go(-1)" class="w-7" />
+    <ArrowLeftIcon @click="$router.go(-1)" class="w-7 cursor-pointer" />
     <h1 class="font-bold">Watch list</h1>
     <div></div>
   </header>

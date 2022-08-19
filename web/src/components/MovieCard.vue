@@ -97,8 +97,16 @@ const clickBookmark = async () => {
     <div class="flex flex-col gap-4 justify-center">
       <DotsHorizontalIcon v-if="isLoading" />
       <template v-else>
-        <BookmarkIconSolid v-if="isBookmarked" @click="clickBookmark" class="w-6 text-secondary" />
-        <BookmarkIconOutline v-else @click="clickBookmark" class="w-6 text-inactive" />
+        <BookmarkIconSolid
+          v-if="isBookmarked"
+          @click="clickBookmark"
+          class="w-6 cursor-pointer text-secondary"
+        />
+        <BookmarkIconOutline
+          v-else
+          @click="clickBookmark"
+          class="w-6 cursor-pointer text-inactive"
+        />
       </template>
 
       <div class="flex flex-col items-center">
