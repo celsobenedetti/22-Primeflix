@@ -6,7 +6,22 @@ Uma aplicação de pesquisa, recomendação e registro de filmes
 
 - Estudante de computação 
 - Entusiasta do terminal 
-- Coder lvl 20 
+- Coder lvl 10 
+
+---
+
+## Goals
+
+- Praticar tecnologias que me interessam
+- Escrever um código redondinho e extensivel
+- Ter um projeto de curriculo maneiro pra aprensentar
+
+## Perrengues
+
+- Criativade, criar algo do zero
+- Procrastinação quanto não existe visão clara
+- Prorização das features e estimar tempo
+- Organização de tempo e planejamento
 
 ---
 
@@ -34,3 +49,11 @@ Powered by `tmdb.org`
 - Recomendacoes de filmes baseados nas bookmarks e filmes assistidos
 
 Powered by `tmdb.org`
+
+---
+
+### Primeflix ﳜ
+
+```
+ Obrigado :)
+```
