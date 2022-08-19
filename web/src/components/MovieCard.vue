@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { BookmarkIcon as BookmarkIconOutline } from "@heroicons/vue/outline";
+import { BookmarkIcon as BookmarkIconOutline, DotsHorizontalIcon } from "@heroicons/vue/outline";
+import { BookmarkIcon as BookmarkIconSolid } from "@heroicons/vue/solid";
 import { StarIcon } from "@heroicons/vue/solid";
 import { computed } from "@vue/reactivity";
+import { postToggleBookmark } from "../api";
 import { useStore } from "../store";
 
 const props = defineProps({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   title: String,
   releaseDate: String,
   genreIds: Array<string>,
@@ -16,9 +21,16 @@ const props = defineProps({
 const emit = defineEmits(["showSigninModal"]);
 
 const store = useStore();
+
 const sessionToken = computed(() => store.getters.sessionToken);
 const posterBaseUrl = computed(() => store.getters.posterUrlTMDB);
 const genreNames = computed(() => store.getters.genresMap);
+const bookmarks = computed(() => store.getters.bookmarks);
+
+const isBookmarked = computed(() => {
+  const wasBookmarked = bookmarks.value?.some(({ id_tmdb: tmdbId }: any) => tmdbId === props.id);
+  return (wasBookmarked || response.value?.status === 201) && response.value?.status !== 204;
+});
 
 const posterUrl = computed(() => `${posterBaseUrl.value}/${props.posterPath}`);
 
@@ -28,8 +40,13 @@ const formattedGenres = computed(() =>
     .slice(0, -2),
 );
 
+const { isLoading, execute, response } = postToggleBookmark(props.id, sessionToken.value);
+
 const clickBookmark = () => {
-  if (!sessionToken.value) emit("showSigninModal");
+  if (!sessionToken.value) return emit("showSigninModal");
+  if (isLoading.value) return;
+
+  execute();
 };
 </script>
 
@@ -58,9 +75,14 @@ const clickBookmark = () => {
       </div>
     </div>
     <div class="flex flex-col gap-4 justify-center">
-      <BookmarkIconOutline @click="clickBookmark" class="w-6 text-inactive" />
+      <DotsHorizontalIcon v-if="isLoading" />
+      <template v-else>
+        <BookmarkIconSolid v-if="isBookmarked" @click="clickBookmark" class="w-6 text-secondary" />
+        <BookmarkIconOutline v-else @click="clickBookmark" class="w-6 text-inactive" />
+      </template>
+
       <div class="flex flex-col items-center">
-        <StarIcon class="w-6" />
+        <StarIcon class="w-6 text-secondary" />
         <h4 class="text-sm">{{ props.voteAverage }}</h4>
       </div>
     </div>

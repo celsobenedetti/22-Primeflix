@@ -11,6 +11,7 @@ import ModalAlert from "@/components/ModalAlert.vue";
 import { useGetTMDB } from "../api";
 
 const router = useRouter();
+
 const { isLoading, data } = useGetTMDB("movie/now_playing");
 
 const showModal = ref(false);

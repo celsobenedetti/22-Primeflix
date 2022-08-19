@@ -9,14 +9,19 @@ import { UpdateBookmarkDto } from "./dto/update-bookmark.dto";
 export class BookmarksService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(user: JwtPayload, createBookmarkDto: CreateBookmarkDto) {
+  async toggle(user: JwtPayload, createBookmarkDto: CreateBookmarkDto) {
     const { id_tmdb } = createBookmarkDto;
 
+    const uniqueBookmarkQuery = { id_tmdb_user_id: { id_tmdb, user_id: user.id } };
+
     const existingBookmark = await this.prismaService.movie.findUnique({
-      where: { id_tmdb_user_id: { id_tmdb, user_id: user.id } },
+      where: uniqueBookmarkQuery,
     });
 
-    if (existingBookmark) throw new ConflictException("You already bookmarked this movie");
+    if (existingBookmark) {
+      await this.prismaService.movie.delete({ where: uniqueBookmarkQuery });
+      return;
+    }
 
     return this.prismaService.movie.create({
       data: { user_id: user.id, id_tmdb: createBookmarkDto.id_tmdb },
@@ -38,10 +43,5 @@ export class BookmarksService {
 
   update(id: number, updateBookmarkDto: UpdateBookmarkDto) {
     return `This action updates a #${id} bookmark`;
-  }
-
-  async remove(id: number) {
-    await this.findOne(id);
-    return this.prismaService.movie.delete({ where: { id } });
   }
 }

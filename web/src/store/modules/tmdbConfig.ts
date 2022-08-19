@@ -1,4 +1,3 @@
-import { useStorage } from "@vueuse/core";
 import { ActionContext } from "vuex";
 import { useGet } from "../../api";
 import { getTMDBConfig, getTMDBGenres } from "../../api/tmdb.service";
@@ -8,9 +7,9 @@ import { IGenreMapping, IImagesConfig, ITMDBState } from "../../interfaces/vuex"
 export default {
   state: () => ({
     imagesConfig: {
-      baseImgUrlTMDB: useStorage("baseImgUrlTMDB", ""),
-      posterSizesTMDB: useStorage("posterSizesTMDB", []),
-      backdropSizesTMDB: useStorage("backdropSizesTMDB", []),
+      baseImgUrlTMDB: [],
+      posterSizesTMDB: [],
+      backdropSizesTMDB: [],
     },
     genresMappings: [] as IGenreMapping[],
   }),
