@@ -1,4 +1,6 @@
 import { useAxios } from "@vueuse/integrations/useAxios";
+import { ComputedRef } from "vue";
+import { IMovieData } from "../interfaces/movies";
 
 const SERVER_BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 
@@ -44,10 +46,25 @@ export const getUserBookmarks = async (token: string) => {
   return bookmarks;
 };
 
-export const postToggleBookmark = (tmdbId: number, token: string) => {
+export const postToggleBookmark = (movieData: IMovieData | undefined, token: string) => {
   return usePostServer("bookmarks/toggle", {
     immediate: false,
     token,
-    data: { id_tmdb: tmdbId },
+    data: movieData,
   });
+};
+
+export const postToggleBookmarkAsync = (token: string) => {
+  const { isLoading, execute, response } = useAxios();
+
+  return {
+    isLoading,
+    response,
+    execute: (data: IMovieData) =>
+      execute(`${SERVER_BASE_URL}/bookmarks/toggle`, {
+        method: "POST",
+        headers: authHeader(token),
+        data,
+      }),
+  };
 };

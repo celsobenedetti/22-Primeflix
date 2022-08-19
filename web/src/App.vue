@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LogoutIcon } from "@heroicons/vue/solid";
 import { useStore } from "./store";
 
 const store = useStore();

@@ -11,14 +11,30 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  title: String,
-  releaseDate: String,
-  genreIds: Array<string>,
-  posterPath: String,
-  voteAverage: Number,
+  title: {
+    type: String,
+    default: "",
+  },
+  releaseDate: {
+    type: String,
+    default: "",
+  },
+
+  genreIds: {
+    type: Array<number>,
+    default: [],
+  },
+  posterPath: {
+    type: String,
+    default: "",
+  },
+  voteAverage: {
+    type: Number,
+    default: 0,
+  },
 });
 
-const emit = defineEmits(["showSigninModal"]);
+const emit = defineEmits(["showSigninModal", "toggleBookmark"]);
 
 const store = useStore();
 
@@ -40,13 +56,17 @@ const formattedGenres = computed(() =>
     .slice(0, -2),
 );
 
-const { isLoading, execute, response } = postToggleBookmark(props.id, sessionToken.value);
+const { isLoading, execute, response } = postToggleBookmark(
+  { ...props, id_tmdb: props.id },
+  sessionToken.value,
+);
 
-const clickBookmark = () => {
+const clickBookmark = async () => {
   if (!sessionToken.value) return emit("showSigninModal");
   if (isLoading.value) return;
 
-  execute();
+  await execute();
+  emit("toggleBookmark");
 };
 </script>
 
