@@ -1,9 +1,8 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Param, Post, Req, Res } from "@nestjs/common";
 import { Response } from "express";
 import { SignedUserReq } from "src/common/interfaces";
 import { BookmarksService } from "./bookmarks.service";
 import { CreateBookmarkDto } from "./dto/create-bookmark.dto";
-import { UpdateBookmarkDto } from "./dto/update-bookmark.dto";
 
 @Controller("bookmarks")
 export class BookmarksController {
@@ -29,10 +28,5 @@ export class BookmarksController {
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.bookmarksService.findOne(+id);
-  }
-
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateBookmarkDto: UpdateBookmarkDto) {
-    return this.bookmarksService.update(+id, updateBookmarkDto);
   }
 }

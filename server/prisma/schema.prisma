@@ -28,6 +28,12 @@ model Movie{
   id Int @id @default(autoincrement()) 
 
   id_tmdb Int
+  title String
+  releaseDate String
+  posterPath String
+  genreIds Int[]
+  voteAverage Float
+
   watched Boolean @default(false)
 
   label_id Int?

@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 
 import { PrismaService } from "src/database/prisma/prisma.service";
@@ -24,7 +24,7 @@ export class BookmarksService {
     }
 
     return this.prismaService.movie.create({
-      data: { user_id: user.id, id_tmdb: createBookmarkDto.id_tmdb },
+      data: { ...createBookmarkDto, user_id: user.id, id_tmdb: createBookmarkDto.id_tmdb },
     });
   }
 
@@ -39,9 +39,5 @@ export class BookmarksService {
     const bookmark = await this.prismaService.movie.findUnique({ where: { id } });
     if (!bookmark) throw new NotFoundException("Bookmark not found");
     return bookmark;
-  }
-
-  update(id: number, updateBookmarkDto: UpdateBookmarkDto) {
-    return `This action updates a #${id} bookmark`;
   }
 }
