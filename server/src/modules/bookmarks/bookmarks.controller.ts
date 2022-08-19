@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, HttpCode } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, Res } from "@nestjs/common";
+import { Response } from "express";
 import { SignedUserReq } from "src/common/interfaces";
 import { BookmarksService } from "./bookmarks.service";
 import { CreateBookmarkDto } from "./dto/create-bookmark.dto";
@@ -8,9 +9,16 @@ import { UpdateBookmarkDto } from "./dto/update-bookmark.dto";
 export class BookmarksController {
   constructor(private readonly bookmarksService: BookmarksService) {}
 
-  @Post()
-  create(@Req() { user }: SignedUserReq, @Body() createBookmarkDto: CreateBookmarkDto) {
-    return this.bookmarksService.create(user, createBookmarkDto);
+  @Post("toggle")
+  async toggle(
+    @Req() { user }: SignedUserReq,
+    @Res() res: Response,
+    @Body() createBookmarkDto: CreateBookmarkDto,
+  ) {
+    const newBookmark = await this.bookmarksService.toggle(user, createBookmarkDto);
+
+    if (newBookmark) res.status(HttpStatus.CREATED).send(newBookmark);
+    else res.sendStatus(HttpStatus.NO_CONTENT);
   }
 
   @Get()
@@ -26,11 +34,5 @@ export class BookmarksController {
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateBookmarkDto: UpdateBookmarkDto) {
     return this.bookmarksService.update(+id, updateBookmarkDto);
-  }
-
-  @Delete(":id")
-  @HttpCode(204)
-  remove(@Param("id") id: string) {
-    return this.bookmarksService.remove(+id);
   }
 }
