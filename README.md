@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="https://github.com/celso-patiri/22-Primeflix/blob/main/web/src/assets/logo.png" alt="Logo" width="150">
+  <img src="https://github.com/celso-patiri/22-Primeflix/blob/main/web/src/assets/logo.png" alt="Logo" width="50">
 
   <h3 align="center">
      Movie searching and listing App
